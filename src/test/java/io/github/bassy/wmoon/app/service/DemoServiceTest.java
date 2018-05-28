@@ -7,24 +7,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration
+@ContextConfiguration("/app-config.xml")
 public class DemoServiceTest {
 
-	@Configuration
-	static class Config {
-		
-		@Bean
-		public DemoService demoService() {
-			return new DemoService();
-		}
-	}
-	
 	@Autowired
 	private DemoService demoservice;
 	
