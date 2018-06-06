@@ -8,5 +8,4 @@
     <bean id="demoService"
             class="io.github.bassy.wmoon.app.service.DemoService">
     </bean>
-
 </beans>
