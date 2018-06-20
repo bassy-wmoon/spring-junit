@@ -1,4 +1,5 @@
-create table if not exists test (
-    id int primary key,
-    name varchar(50)
+create table if not exists user (
+    id int primary key AUTO_INCREMENT,
+    name varchar(50),
+    sex varchar(6)
 );
