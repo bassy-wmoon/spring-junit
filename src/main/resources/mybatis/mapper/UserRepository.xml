@@ -9,7 +9,7 @@
     </insert>
 
     <select id="selectUsers" resultType="io.github.bassy.wmoon.app.model.User">
-        select id, name, sex from user;
+        select id, name, sex from user order by id;
     </select>
 
     <select id="selectOne" resultType="io.github.bassy.wmoon.app.model.User">

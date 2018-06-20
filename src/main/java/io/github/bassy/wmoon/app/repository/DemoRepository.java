@@ -14,9 +14,7 @@ public class DemoRepository {
 	}
 	
 	public int count() {
-		int count = namedParameterJdbcTemplate.queryForObject(
-				"select count(1) from test", new MapSqlParameterSource(), Integer.class);
-		
-		return count;
+		return namedParameterJdbcTemplate.queryForObject(
+				"select count(1) from user", new MapSqlParameterSource(), Integer.class);
 	}
 }

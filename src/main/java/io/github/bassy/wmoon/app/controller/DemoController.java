@@ -49,5 +49,4 @@ public class DemoController {
 		model.addAttribute("user", user);
 		return "demoUser";
 	}
-
 }

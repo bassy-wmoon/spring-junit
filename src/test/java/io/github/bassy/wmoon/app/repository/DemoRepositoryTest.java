@@ -1,23 +1,16 @@
-package io.github.bassy.wmoon.repository;
-
-import static org.junit.Assert.assertEquals;
-
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+package io.github.bassy.wmoon.app.repository;
 
 import com.ninja_squad.dbsetup.DbSetup;
 import com.ninja_squad.dbsetup.Operations;
 import com.ninja_squad.dbsetup.destination.Destination;
 import com.ninja_squad.dbsetup.operation.Operation;
+import org.junit.*;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import io.github.bassy.wmoon.app.repository.DemoRepository;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -42,29 +35,28 @@ public class DemoRepositoryTest {
 	@Before
 	public void setUp() throws Exception {
 		System.out.println("before");
-		new DbSetup(destination, Operations.truncate("test")).launch();
+		new DbSetup(destination, Operations.truncate("user")).launch();
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		System.out.println("after");
-		new DbSetup(destination, Operations.truncate("test")).launch();
+		new DbSetup(destination, Operations.truncate("user")).launch();
 	}
 
 	@Test
 	public void test() {
 		// setup テストデータ投入
 		Operation insert = Operations.sequenceOf(
-				Operations.insertInto("test")
-					.columns("id", "name")
-					.values(1, "hoge")
-					.values(2, "fuga")
+				Operations.insertInto("user")
+					.columns("id")
+					.values(1)
+					.values(2)
 					.build(),
-				Operations.insertInto("test")
+				Operations.insertInto("user")
 					.row()
 						.column("id", 3)
-						.column("name", "piyo")
-						.end()
+					.end()
 					.build()
 		);
 		DbSetup dbSetup = new DbSetup(destination, insert);
