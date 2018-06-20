@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<head>
+    <title>demo dayo</title>
+</head>
+<body>
+<h1>Demo Users</h1>
+<div th:each="user: ${users}">
+    <span th:text="${user.id}"></span> <span th:text="${user.name}"></span> <span th:text="${user.sex}"></span>
+</div>
+</body>
+</html>

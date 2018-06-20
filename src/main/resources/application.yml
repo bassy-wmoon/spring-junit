@@ -1,9 +1,16 @@
 spring:
   datasource:
-    url: jdbc:h2:~/h2/hogehoge;MODE=Oracle;IFEXISTS=TRUE";
+    url: jdbc:h2:~/h2/demo;MODE=Oracle;IFEXISTS=TRUE";
     username: sa
     password: 
     driver-class-name: org.h2.Driver
   h2:
     console:
       enabled: true
+
+mybatis:
+  mapper-locations: mybatis/mapper/*.xml
+
+server:
+  servlet:
+    contextPath: /demoapp
