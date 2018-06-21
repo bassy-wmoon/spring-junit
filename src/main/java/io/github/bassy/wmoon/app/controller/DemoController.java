@@ -25,7 +25,7 @@ public class DemoController {
 		return "hoge";
 	}
 
-	@GetMapping("/demo")
+	@GetMapping("/index")
 	public String demoIndex() {
 		return "demo";
 	}

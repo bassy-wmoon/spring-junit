@@ -10,8 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Specification
 import spock.lang.Unroll
 
-@SpringBootTest
 @Unroll
+@SpringBootTest
 class UserRepositorySpec extends Specification {
 
     @Autowired

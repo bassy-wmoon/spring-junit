@@ -12,9 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -31,32 +29,23 @@ public class DemoControllerTest {
     private DemoService demoService;
 
     @Test
-    public void GETリクエストでhoge画面が表示されること() throws Exception {
+    public void view名hogeが返却されること() throws Exception {
 
         // テスト実行
         mockMvc.perform(get("/"))
-                .andExpect(view().name("hoge"))
-                .andExpect(status().isOk())
-
-                // viewに文字列が含まれていることを検証
-                .andExpect(content().string(containsString("hello world")));
+                .andExpect(view().name("hoge"));
     }
 
     @Test
-    public void GETリクエストでdemo画面が表示されること() throws Exception {
+    public void view名demoが返却されること() throws Exception {
 
         // テスト実行
-        mockMvc.perform(get("/demo"))
-                .andExpect(view().name("demo"))
-                .andExpect(status().isOk())
-
-                // viewに要素と文字列が存在することを検証
-                .andExpect(xpath("/html/head/title").string("demo dayo"))
-                .andExpect(xpath("//h1").string("Demo page"));
+        mockMvc.perform(get("/index"))
+                .andExpect(view().name("demo"));
     }
 
     @Test
-    public void POSTリクエストでユーザ登録後demo画面にリダイレクトできること() throws Exception {
+    public void view名demoへのリダイレクトが返却されること_ユーザ登録が呼び出されること() throws Exception {
 
         // saveUserメソッドをモック
         doNothing().when(demoService).saveUser(any());
@@ -66,8 +55,7 @@ public class DemoControllerTest {
         mockMvc.perform(post("/save")
                 .param("name", "Bob")
                 .param("sex", "MALE"))
-                .andExpect(view().name("redirect:demo"))
-                .andExpect(status().is(302));
+                .andExpect(view().name("redirect:demo"));
 
         // saveUserメソッドの呼び出しと引数を検証
         verify(demoService, times(1)).saveUser(any());
@@ -77,57 +65,30 @@ public class DemoControllerTest {
     }
 
     @Test
-    public void GETリクエストでdemoUsers画面にユーザ一覧が表示されること() throws Exception{
+    public void view名demoUsers返却されること_モデルにusersが設定されていること() throws Exception{
 
-        // サービスの戻り値を作成
-        User bob = new User();
-        bob.setId(1);
-        bob.setName("Bob");
-        bob.setSex(User.Sex.MALE);
-        User marry = new User();
-        marry.setId(2);
-        marry.setName("Marry");
-        marry.setSex(User.Sex.FEMALE);
-
-        List<User> users = new ArrayList<>();
-        users.add(bob);
-        users.add(marry);
-
-        // メソッドをモック
-        doReturn(users).when(demoService).selectUsers();
+        // サービスの戻り値のモック
+        doReturn(new ArrayList<User>()).when(demoService).selectUsers();
 
         // テスト実行
         mockMvc.perform(get("/show"))
                 .andExpect(view().name("demoUsers"))
-                .andExpect(model().attributeExists("users"))
-                .andExpect(xpath("//h1").string("Demo Users"))
-                .andExpect(xpath("//div[1]/span[2]").string("Bob"))
-                .andExpect(xpath("//div[2]/span[2]").string("Marry"));
+                .andExpect(model().attributeExists("users"));
 
         // selectUsersメソッドの呼び出しと引数を検証
         verify(demoService, times(1)).selectUsers();
     }
 
     @Test
-    public void ユーザID指定のGETリクエストでdemoUser画面にユーザが表示されること() throws Exception {
+    public void view名demoUserが返却されること_モデルにuserが設定されていること() throws Exception {
 
-        // サービスの戻り値を作成
-        User mike = new User();
-        mike.setId(100);
-        mike.setName("Mike");
-        mike.setSex(User.Sex.MALE);
-
-        // メソッドをモック
-        doReturn(mike).when(demoService).selectUser(anyInt());
-
+        // サービスの戻り値のモック
+        doReturn(new User()).when(demoService).selectUser(anyInt());
 
         // テスト実行
         mockMvc.perform(get("/show/user/100"))
                 .andExpect(view().name("demoUser"))
-                .andExpect(model().attributeExists("user"))
-                .andExpect(xpath("//h1").string("Demo User"))
-                .andExpect(xpath("//div/span[1]").string("100"))
-                .andExpect(xpath("//div/span[2]").string("Mike"));
+                .andExpect(model().attributeExists("user"));
 
         // selectUserメソッドの呼び出しと引数を検証
         verify(demoService, times(1)).selectUser(anyInt());
