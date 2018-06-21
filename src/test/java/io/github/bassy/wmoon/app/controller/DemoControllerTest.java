@@ -10,13 +10,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -33,7 +34,7 @@ public class DemoControllerTest {
     public void GETリクエストでhoge画面が表示されること() throws Exception {
 
         // テスト実行
-        mockMvc.perform(MockMvcRequestBuilders.get("/"))
+        mockMvc.perform(get("/"))
                 .andExpect(view().name("hoge"))
                 .andExpect(status().isOk())
 
@@ -45,7 +46,7 @@ public class DemoControllerTest {
     public void GETリクエストでdemo画面が表示されること() throws Exception {
 
         // テスト実行
-        mockMvc.perform(MockMvcRequestBuilders.get("/demo"))
+        mockMvc.perform(get("/demo"))
                 .andExpect(view().name("demo"))
                 .andExpect(status().isOk())
 
@@ -62,8 +63,7 @@ public class DemoControllerTest {
         ArgumentCaptor<User> userArgumentCaptor = ArgumentCaptor.forClass(User.class);
 
         // テスト実行
-        mockMvc.perform(MockMvcRequestBuilders
-                .post("/save")
+        mockMvc.perform(post("/save")
                 .param("name", "Bob")
                 .param("sex", "MALE"))
                 .andExpect(view().name("redirect:demo"))
@@ -97,8 +97,7 @@ public class DemoControllerTest {
         doReturn(users).when(demoService).selectUsers();
 
         // テスト実行
-        mockMvc.perform(MockMvcRequestBuilders
-                .get("/show"))
+        mockMvc.perform(get("/show"))
                 .andExpect(view().name("demoUsers"))
                 .andExpect(model().attributeExists("users"))
                 .andExpect(xpath("//h1").string("Demo Users"))
@@ -123,8 +122,7 @@ public class DemoControllerTest {
 
 
         // テスト実行
-        mockMvc.perform(MockMvcRequestBuilders
-                .get("/show/user/100"))
+        mockMvc.perform(get("/show/user/100"))
                 .andExpect(view().name("demoUser"))
                 .andExpect(model().attributeExists("user"))
                 .andExpect(xpath("//h1").string("Demo User"))
