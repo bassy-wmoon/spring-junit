@@ -2,7 +2,7 @@ package io.github.bassy.wmoon.app.controller;
 
 import com.ninja_squad.dbsetup.DbSetup;
 import com.ninja_squad.dbsetup.Operations;
-import com.ninja_squad.dbsetup.destination.Destination;
+import com.ninja_squad.dbsetup.destination.DataSourceDestination;
 import com.ninja_squad.dbsetup.operation.Operation;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,14 +33,11 @@ public class DemoControllerIntegrationTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private Destination destination;
-
-    @Autowired
     private DataSource dataSource;
 
     @Before
     public void setUp() {
-        new DbSetup(destination, Operations.truncate("user")).launch();
+        new DbSetup(new DataSourceDestination(dataSource), Operations.truncate("user")).launch();
     }
 
     @Test
@@ -98,7 +95,7 @@ public class DemoControllerIntegrationTest {
                         .values(20, "Marry", "FEMALE")
                         .build()
         );
-        new DbSetup(destination, insert).launch();
+        new DbSetup(new DataSourceDestination(dataSource), insert).launch();
 
         // テスト実行
         mockMvc.perform(get("/show"))
@@ -120,7 +117,7 @@ public class DemoControllerIntegrationTest {
                         .values(100, "Mike", "MALE")
                         .build()
         );
-        new DbSetup(destination, insert).launch();
+        new DbSetup(new DataSourceDestination(dataSource), insert).launch();
 
         // テスト実行
         mockMvc.perform(get("/show/user/100"))

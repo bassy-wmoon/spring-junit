@@ -2,6 +2,7 @@ package io.github.bassy.wmoon.app.repository;
 
 import com.ninja_squad.dbsetup.DbSetup;
 import com.ninja_squad.dbsetup.Operations;
+import com.ninja_squad.dbsetup.destination.DataSourceDestination;
 import com.ninja_squad.dbsetup.destination.Destination;
 import com.ninja_squad.dbsetup.operation.Operation;
 import org.junit.*;
@@ -10,13 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.sql.DataSource;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class DemoRepositoryTest {
-	
+
 	@Autowired
+	private DataSource dataSource;
+
 	private Destination destination;
 	
 	@Autowired	
@@ -35,6 +40,7 @@ public class DemoRepositoryTest {
 	@Before
 	public void setUp() throws Exception {
 		System.out.println("before");
+		destination = getDestination();
 		new DbSetup(destination, Operations.truncate("user")).launch();
 	}
 
@@ -66,4 +72,7 @@ public class DemoRepositoryTest {
 		assertEquals(3, demoRepository.count());		
 	}
 
+	private Destination getDestination() {
+		return new DataSourceDestination(this.dataSource);
+	}
 }
