@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NoTest Articles</title>
+</head>
+<body>
+<h1>articles</h1>
+<div th:each="article: ${articles}">
+    <span th:text="${article.id}"></span> <span th:text="${article.name}"></span> <span th:text="${article.description}"></span> <span th:text="${article.created_at}"></span>
+</div>
+</body>
+</html>
