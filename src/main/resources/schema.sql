@@ -10,3 +10,9 @@ create table if not exists article (
     description varchar(50),
     created_at date
 );
+
+create table if not exists account (
+    username varchar(50) primary key,
+    password varchar(50),
+    role char(2)
+);

@@ -14,3 +14,4 @@ mybatis:
 server:
   servlet:
     contextPath: /demoapp
+  port: 8880
